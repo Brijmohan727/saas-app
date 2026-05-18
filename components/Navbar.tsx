@@ -26,10 +26,13 @@
 
 // export default Navbar
 // 
+// 
 "use client"
 
 import Link from "next/link"
 import Image from "next/image"
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
 
 import {
   SignInButton,
@@ -41,7 +44,18 @@ import {
 import NavItems from "@/components/NavItems"
 
 const Navbar = () => {
-  const { isSignedIn } = useUser()
+  const { isSignedIn, isLoaded } = useUser()
+  const router = useRouter()
+
+  // Auto redirect if user is not signed in
+  useEffect(() => {
+    if (isLoaded && !isSignedIn) {
+      router.push("/sign-in")
+    }
+  }, [isLoaded, isSignedIn, router])
+
+  // Prevent hydration flicker
+  if (!isLoaded) return null
 
   return (
     <nav className="flex items-center justify-between px-6 py-4">
@@ -53,7 +67,10 @@ const Navbar = () => {
             width={46}
             height={44}
           />
-          <span className="text-xl font-bold">Converso</span>
+
+          <span className="text-xl font-bold">
+            Converso
+          </span>
         </div>
       </Link>
 
