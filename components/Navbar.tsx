@@ -67,10 +67,6 @@ const Navbar = () => {
             width={46}
             height={44}
           />
-
-          <span className="text-xl font-bold">
-            Converso
-          </span>
         </div>
       </Link>
 
